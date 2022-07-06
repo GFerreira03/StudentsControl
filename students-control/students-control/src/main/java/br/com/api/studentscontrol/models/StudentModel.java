@@ -8,10 +8,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.hateoas.RepresentationModel;
+
 @Entity
 @Data
 @Table(name = "STUDENT")
-public class StudentModel implements Serializable {
+public class StudentModel extends RepresentationModel<StudentModel> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
