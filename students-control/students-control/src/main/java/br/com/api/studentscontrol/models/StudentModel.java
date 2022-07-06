@@ -1,7 +1,6 @@
 package br.com.api.studentscontrol.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -10,8 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "STUDENT")
 public class StudentModel implements Serializable {
 
@@ -25,9 +23,12 @@ public class StudentModel implements Serializable {
     @Column(nullable = false, name = "NAME")
     private String name;
 
+    @Column(nullable = false, unique = true, length = 11, name = "CPF")
+    private String cpf;
+
     @Column(nullable = false, name = "COURSE")
     private String course;
 
     @Column(nullable = false, name = "BIRTH")
-    private LocalDateTime birth;
+    private LocalDateTime registrationDate;
 }
