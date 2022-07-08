@@ -19,4 +19,7 @@ public class StudentDto {
     @NotBlank
     private String course;
 
+    @NotBlank
+    private String birthDate;
+
 }
