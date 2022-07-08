@@ -31,6 +31,9 @@ public class StudentModel extends RepresentationModel<StudentModel> implements S
     @Column(nullable = false, name = "COURSE")
     private String course;
 
-    @Column(nullable = false, name = "BIRTH")
+    @Column(nullable = false, name = "REGISTRATION")
     private LocalDateTime registrationDate;
+
+    @Column(nullable = false, name = "BIRTH")
+    private String birthDate;
 }
