@@ -3,6 +3,7 @@ package br.com.api.studentscontrol.controllers;
 import br.com.api.studentscontrol.dtos.StudentDto;
 import br.com.api.studentscontrol.models.StudentModel;
 import br.com.api.studentscontrol.services.StudentService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,7 @@ public class StudentController {
     StudentService studentService;
 
     @PostMapping
+    @Operation(summary = "Saves one student")
     public ResponseEntity<Object> saveStudent(@RequestBody @Valid StudentDto studentDto){
         if(studentService.existsByCpf(studentDto.getCpf())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("This CPF is already in use.");
@@ -43,7 +45,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<StudentModel>> getAllStudents(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+    @Operation(summary = "Returns all students")
+    public ResponseEntity<Page<StudentModel>> getAllStudents(@PageableDefault(page = 0, size = 10) Pageable pageable){
         Page<StudentModel> studentModelPage = studentService.findAll(pageable);
         for (StudentModel studentModel : studentModelPage){
             UUID id = studentModel.getId();
@@ -53,6 +56,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Returns one specific student")
     public ResponseEntity<Object> getOneStudent(@PathVariable("id") UUID id){
         Optional<StudentModel> studentModel = studentService.findById(id);
         if (!studentModel.isPresent()){
@@ -63,6 +67,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletes one student")
     public ResponseEntity<Object> deleteOneStudent(@PathVariable("id") UUID id){
         Optional<StudentModel> studentModel = studentService.findById(id);
         if (!studentModel.isPresent()){
@@ -74,6 +79,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Updates one student")
     public ResponseEntity<Object> updateOneStudent(@PathVariable("id") UUID id,
                                                    @RequestBody @Valid StudentDto studentDto){
         Optional<StudentModel> studentModelOptional = studentService.findById(id);
@@ -84,6 +90,7 @@ public class StudentController {
         studentModel.setName(studentDto.getName());
         studentModel.setCpf(studentDto.getCpf());
         studentModel.setCourse(studentDto.getCourse());
+        studentModel.setBirthDate(studentDto.getBirthDate());
 
         return ResponseEntity.status(HttpStatus.OK).body(studentService.save(studentModel));
     }
